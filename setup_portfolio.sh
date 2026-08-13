@@ -28,9 +28,8 @@ echo "========================================="
 
 # ===== 1. Update system & install dependencies =====
 echo ">>> Updating system and installing packages..."
-sudo apt update -y
 sudo apt install -y apache2 postgresql postgresql-contrib php libapache2-mod-php php-pgsql
-
+sudo apt update -y || true
 # ===== 2. Start & enable services =====
 echo ">>> Starting and enabling Apache and PostgreSQL..."
 sudo systemctl start apache2
@@ -64,7 +63,9 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} TO ${DB_US
 
 # ===== 4. Load schema, data, and table-level grants =====
 echo ">>> Loading schema and data from init.sql..."
-sudo -u postgres psql -d "${DB_NAME}" -f "${SCRIPT_DIR}/init.sql"
+cp "${SCRIPT_DIR}/init.sql" /tmp/portfolio_init.sql
+sudo -u postgres psql -d "${DB_NAME}" -f /tmp/portfolio_init.sql
+rm -f /tmp/portfolio_init.sql
 
 # ===== 5. Deploy web files =====
 echo ">>> Deploying portfolio files to Apache web root..."
@@ -93,4 +94,4 @@ sudo systemctl restart apache2
 echo "========================================="
 echo " Portfolio website setup complete!"
 echo " Visit http://localhost to view your site."
-echo "========================================="
+echo "=========================================
