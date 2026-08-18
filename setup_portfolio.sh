@@ -94,4 +94,4 @@ sudo systemctl restart apache2
 echo "========================================="
 echo " Portfolio website setup complete!"
 echo " Visit http://localhost to view your site."
-echo "=========================================
+echo "========================================="
